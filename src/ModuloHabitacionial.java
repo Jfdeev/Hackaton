@@ -1,3 +1,6 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 
@@ -114,28 +117,31 @@ public class ModuloHabitacionial {
     }
 
     public void monitorarRecursos(){
-        System.out.println("\nIdentificacao: " + this.identificacao);
-
-        if(this.agua.getQuantidade() == -1){
-            System.out.println("\nO recurso agua nao foi cadastrado no modulo: " + this.identificacao);
-        }else{
-            System.out.println("\nAgua: " + this.agua.getQuantidade() + " litros");
+        if ("Armazenamento".equals(getFinalidade())) {
+            System.out.println("\nIdentificacao: " + this.identificacao);
+    
+            if(this.agua.getQuantidade() == -1){
+                System.out.println("\nO recurso agua nao foi cadastrado no modulo: " + this.identificacao);
+            }else{
+                System.out.println("\nAgua: " + this.agua.getQuantidade() + " litros");
+            }
+            if(this.oxigenio.getQuantidade() == -1){
+                System.out.println("\nO recurso oxigenio nao foi cadastrado no modulo: " + this.identificacao);
+            }else{
+                System.out.println("\nOxigenio: " + this.oxigenio.getQuantidade() + " litros");
+            }
+            if(this.oxigenio.getQuantidade() == -1){
+                System.out.println("\nO recurso energia nao foi cadastrado no modulo: " + this.identificacao);
+            }else{
+                System.out.println("\nEnergia: " + this.energia.getQuantidade() + "%");
+            }
+            if(this.comida.getQuantidade() == -1){
+                System.out.println("\nO recurso comida nao foi cadastrado no modulo: " + this.identificacao);
+            }else{
+                System.out.println("\nComida: " + this.comida.getQuantidade() + " latas de diferentes tipos de alimento");
+            }   
+            
         }
-        if(this.oxigenio.getQuantidade() == -1){
-            System.out.println("\nO recurso oxigenio nao foi cadastrado no modulo: " + this.identificacao);
-        }else{
-            System.out.println("\nOxigenio: " + this.oxigenio.getQuantidade() + " litros");
-        }
-        if(this.oxigenio.getQuantidade() == -1){
-            System.out.println("\nO recurso energia nao foi cadastrado no modulo: " + this.identificacao);
-        }else{
-            System.out.println("\nEnergia: " + this.energia.getQuantidade() + "%");
-        }
-        if(this.comida.getQuantidade() == -1){
-            System.out.println("\nO recurso comida nao foi cadastrado no modulo: " + this.identificacao);
-        }else{
-            System.out.println("\nComida: " + this.comida.getQuantidade() + " latas de diferentes tipos de alimento");
-        }   
     }
 
     public void alertaRecursos(){
@@ -162,14 +168,20 @@ public class ModuloHabitacionial {
     }
 
     public void gastoDeRecursos(){
-        if(this.getHabitantes().size() > 0){
-            getAgua().setQuantidade(getCapacidade() - 1);
-            getOxigenio().setQuantidade(getCapacidade() - 1);
-            getComida().setQuantidade(getCapacidade() - 1);
-            getEnergia().setQuantidade(getCapacidade() - 1);
-        } else {
-            System.out.println("\nNao ha habitantes no modulo " + this.identificacao + " para gastar recursos!");
-        }
+        getAgua().setQuantidade(getAgua().getQuantidade() - getCapacidade());
+        getOxigenio().setQuantidade(getOxigenio().getQuantidade() - getCapacidade());
+        getComida().setQuantidade(getComida().getQuantidade() - getCapacidade());
+        getEnergia().setQuantidade(getEnergia().getQuantidade() - getCapacidade());
     }
-    
+
+    public void abastecerModulos(ModuloHabitacionial modulo, ModuloHabitacionial modulo2){
+        modulo2.getAgua().setQuantidade(modulo.getAgua().getQuantidade());
+        modulo2.getOxigenio().setQuantidade(modulo.getOxigenio().getQuantidade());
+        modulo2.getComida().setQuantidade(modulo.getComida().getQuantidade());
+        modulo2.getEnergia().setQuantidade(modulo.getEnergia().getQuantidade());
+        modulo.getAgua().setQuantidade(0);
+        modulo.getOxigenio().setQuantidade(0);
+        modulo.getComida().setQuantidade(0);
+        modulo.getEnergia().setQuantidade(0);
+    }
 }

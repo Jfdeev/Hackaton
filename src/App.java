@@ -14,7 +14,7 @@ public class App {
         boolean finalidadeCoerente;
 
         do {
-            System.out.println("\n1 - Cadastrar Modulo\n2 - Cadastrar Habitante\n3 - Cadastrar Recurso\n4 - Cadastrar Projeto de Pesquisa\n5 - Visualizar Modulo por Tipo\n6 - Consultar Status de Pesquisa\n7 - Nivel Atual de Recurso\n8 - Visualizar habitantes por modulo\n9 - Exportar Arquivo Txt\n10 - Sair");
+            System.out.println("\n1 - Cadastrar Modulo\n2 - Cadastrar Habitante\n3 - Cadastrar Recurso\n4 - Cadastrar Projeto de Pesquisa\n5 - Visualizar Modulo por Tipo\n6 - Consultar Status de Pesquisa\n7 - Nivel Atual de Recurso\n8 - Visualizar habitantes por modulo\n9 - Exportar Arquivo Txt\n10- - Abastecer Modulos\n11 - Sair");
             escolha = sc.nextLine();
 
             if("1".equals(escolha)){
@@ -81,10 +81,9 @@ public class App {
 
                         if(modulo.verificarCapacidadeMaxima() == true){
                             System.out.println("\nO modulo habitacional " + modulo.getIdentificacao() + " atingiu o maximo de sua capacidade!");
-                            finalidadeCoerente = true;
                             break;
                         }else{
-                            if("Habitacao".equals(modulo.getFinalidade()) || "Laboratorio".equals(modulo.getFinalidade())){
+                            if("Habitacao".equals(modulo.getFinalidade()) || "Laboratorio".equals(modulo.getFinalidade()) || "Armazenamento".equals(modulo.getFinalidade())){
                                 finalidadeCoerente = true;
 
                                 System.out.println("\nNome completo do habitante: ");
@@ -357,14 +356,12 @@ public class App {
                 System.out.println("\nNivel de Recursos:");
 
                 for(ModuloHabitacionial modulo : modulos){
-                    if ("Armazenamento".equals(modulo.getFinalidade())){
                         System.out.println("\nIdentificacao: " + modulo.getIdentificacao());
-                        System.out.println("\nRecursos:");
-                        System.out.println("\nAgua: " + modulo.getAgua().getQuantidade());
-                        System.out.println("Oxigenio: " + modulo.getOxigenio().getQuantidade());
-                        System.out.println("Energia: " + modulo.getEnergia().getQuantidade());
-                        System.out.println("Alimento: " + modulo.getComida().getQuantidade());
-                    }
+    
+                        System.out.println("\nAgua: " + modulo.getAgua().getQuantidade() + " litros");
+                        System.out.println("Oxigenio: " + modulo.getOxigenio().getQuantidade() + " litros");
+                        System.out.println("Energia: " + modulo.getEnergia().getQuantidade() + " watts");
+                        System.out.println("Alimento: " + modulo.getComida().getQuantidade() + " gramas");
                 }
             }else if("8".equals(escolha)){
                     boolean temHabitacional = false;
@@ -505,20 +502,37 @@ public class App {
                 } catch (IOException e) {
                     System.out.println("\nErro ao criar arquivo: " + e.getMessage());
                 }
-            }else if("10".equals(escolha)){
+            }else if ("10".equals(escolha)) {
+                System.out.println("\nAbastecer Modulos:");
+                System.out.println("\nDe qual modulo voce deseja transferir os recursos?");
+                String moduloOrigem = sc.nextLine();
+                System.out.println("\nPara qual modulo voce deseja transferir os recursos?");
+                String moduloDestino = sc.nextLine();
+                for (ModuloHabitacionial modulo : modulos) {
+                    if (modulo.getIdentificacao().equals(moduloOrigem)) {
+                        for (ModuloHabitacionial modulo2 : modulos) {
+                            if (modulo2.getIdentificacao().equals(moduloDestino)) {
+                                modulo.abastecerModulos(modulo, modulo2);
+                            }
+                        }
+                    }
+                }
+                
+        
+            }else if("11".equals(escolha)){
                 System.out.println("\nObrigado por utilizar o Sistema de Colonias Submarinas!");
             }else{
                 System.out.println("\nOpcao invalida!");
             }
 
-            if(!"10".equals(escolha)){
-                for(ModuloHabitacionial modulo : modulos){
+            if(!"11".equals(escolha)){
+                for (ModuloHabitacionial modulo : modulos) {
                     modulo.gastoDeRecursos();
                     modulo.alertaRecursos();
                 }
             }
 
-        } while (!"10".equals(escolha));
+        } while (!"11".equals(escolha));
 
         System.out.println("\nPrograma Encerrado!");
     }
