@@ -2,6 +2,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class ModuloHabitacionial {
@@ -10,12 +11,10 @@ public class ModuloHabitacionial {
     private int capacidade;
     private int capMaxima;
     private String finalidade;
+    private ArrayList<Recurso> recursos = new ArrayList<>();
     private ArrayList<Habitante> habitantes = new ArrayList<>();
-    private Recurso agua = new Recurso();
-    private Recurso oxigenio = new Recurso();
-    private Recurso comida = new Recurso();
-    private Recurso energia = new Recurso();
-    private ProjetosDePesquisa pesquisa = new ProjetosDePesquisa();
+    private ArrayList<ProjetosDePesquisa> projetos = new ArrayList<>();
+    Scanner sc = new Scanner(System.in);
     
     public ModuloHabitacionial(String identificacao, String localizacao, int capMaxima, String finalidade) {
         this.identificacao = identificacao;
@@ -71,117 +70,124 @@ public class ModuloHabitacionial {
     public void setHabitantes(ArrayList<Habitante> habitantes) {
         this.habitantes = habitantes;
     }
+    
 
-    public Recurso getAgua() {
-        return agua;
+    public ArrayList<Recurso> getRecursos() {
+        return recursos;
     }
 
-    public void setAgua(Recurso agua) {
-        this.agua = agua;
+    public void setRecursos(ArrayList<Recurso> recursos) {
+        this.recursos = recursos;
     }
 
-    public Recurso getOxigenio() {
-        return oxigenio;
+    public ArrayList<ProjetosDePesquisa> getProjetos() {
+        return projetos;
     }
 
-    public void setOxigenio(Recurso oxigenio) {
-        this.oxigenio = oxigenio;
-    }
-
-    public Recurso getComida() {
-        return comida;
-    }
-
-    public void setComida(Recurso comida) {
-        this.comida = comida;
-    }
-
-    public Recurso getEnergia() {
-        return energia;
-    }
-
-    public void setEnergia(Recurso energia) {
-        this.energia = energia;
-    }
-
-    public ProjetosDePesquisa getPesquisa() {
-        return pesquisa;
-    }
-
-    public void setPesquisa(ProjetosDePesquisa pesquisa) {
-        this.pesquisa = pesquisa;
+    public void setProjetos(ArrayList<ProjetosDePesquisa> projetos) {
+        this.projetos = projetos;
     }
 
     public boolean verificarCapacidadeMaxima(){
         return this.capacidade >= this.capMaxima;
     }
 
-    public void monitorarRecursos(){
-        if ("Armazenamento".equals(getFinalidade())) {
-            System.out.println("\nIdentificacao: " + this.identificacao);
+    public void cadastrarModulo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\nDigite a identificacao do modulo: ");
+        this.identificacao = sc.nextLine();
+        System.out.println("\nDigite a localizacao do modulo: ");
+        this.localizacao = sc.nextLine();
+        System.out.println("\nDigite a capacidade maxima do modulo: ");
+        this.capMaxima = sc.nextInt();
+        System.out.println("\nDigite a finalidade do modulo: ");
+        this.finalidade = sc.nextLine();
+
+    }
     
-            if(this.agua.getQuantidade() == -1){
-                System.out.println("\nO recurso agua nao foi cadastrado no modulo: " + this.identificacao);
-            }else{
-                System.out.println("\nAgua: " + this.agua.getQuantidade() + " litros");
-            }
-            if(this.oxigenio.getQuantidade() == -1){
-                System.out.println("\nO recurso oxigenio nao foi cadastrado no modulo: " + this.identificacao);
-            }else{
-                System.out.println("\nOxigenio: " + this.oxigenio.getQuantidade() + " litros");
-            }
-            if(this.oxigenio.getQuantidade() == -1){
-                System.out.println("\nO recurso energia nao foi cadastrado no modulo: " + this.identificacao);
-            }else{
-                System.out.println("\nEnergia: " + this.energia.getQuantidade() + "%");
-            }
-            if(this.comida.getQuantidade() == -1){
-                System.out.println("\nO recurso comida nao foi cadastrado no modulo: " + this.identificacao);
-            }else{
-                System.out.println("\nComida: " + this.comida.getQuantidade() + " latas de diferentes tipos de alimento");
-            }   
-            
+    public void mostrarModulosPorTipo(){
+        System.out.println("Digite o tipo de modulo que deseja visualizar: ");
+        System.out.println("1 - Habitacional");
+        System.out.println("2 - Armazenamento");
+        System.out.println("3 - Laboratorial");
+        String tipo = sc.nextLine();
+        if("Habitacional".equals(tipo)){
+            System.out.println("\nIdentificacao: " + this.identificacao);
+            System.out.println("\nLocalizacao: " + this.localizacao);
+            System.out.println("\nCapacidade: " + this.capacidade);
+            System.out.println("\nCapacidade maxima: " + this.capMaxima);
+            System.out.println("\nFinalidade: " + this.finalidade);
+        
+       } else if("Armazenamento".equals(tipo)){
+            System.out.println("\nIdentificacao: " + this.identificacao);
+            System.out.println("\nLocalizacao: " + this.localizacao);
+            System.out.println("\nCapacidade: " + this.capacidade);
+            System.out.println("\nCapacidade maxima: " + this.capMaxima);
+            System.out.println("\nFinalidade: " + this.finalidade);
+        }   else if("Laboratorial".equals(tipo)){
+            System.out.println("\nIdentificacao: " + this.identificacao);
+            System.out.println("\nLocalizacao: " + this.localizacao);
+            System.out.println("\nCapacidade: " + this.capacidade);
+            System.out.println("\nCapacidade maxima: " + this.capMaxima);
+            System.out.println("\nFinalidade: " + this.finalidade);
+        } else {
+            System.out.println("\nTipo de modulo invalido!");
         }
     }
 
-    public void alertaRecursos(){
-        if(this.agua != null && "Armazem".equals(this.finalidade)){
-            if(this.agua.getQuantidade() <= 20 && this.agua.getQuantidade() >= 0){
-                System.out.println("\nA agua do modulo " + this.identificacao + " esta em um nivel critico de quantidade!");
-            }
+    public void cadastrarHabitante(){
+        System.out.println("\nDigite a indentificação do modulo para o habitante: ");
+        String identificacao = sc.nextLine();
+        if(this.identificacao.equals(identificacao) && verificarCapacidadeMaxima() == false){
+            System.out.println("\nDigite o nome do habitante: ");
+            String nome = sc.nextLine();
+            System.out.println("\nDigite a idade do habitante: ");
+            int idade = sc.nextInt();
+            System.out.println("\nDigite a funcao do habitante: ");
+            String funcao = sc.nextLine();
+            System.out.println("\nDigite a especialidade do habitante: ");
+            String especialidade = sc.nextLine();
+            Habitante habitante = new Habitante(especialidade, funcao, nome, idade);
+            this.habitantes.add(habitante);
+        } else {
+            System.out.println("\nModulo nao encontrado!");
         }
-        if(this.oxigenio != null && "Armazem".equals(this.finalidade)){
-            if(this.oxigenio.getQuantidade() <= 20 && this.oxigenio.getQuantidade() >= 0){
-                System.out.println("\nO oxigenio do modulo " +  this.identificacao + " esta em um nivel critico de quantidade!");
-            }
-        }
-        if(this.comida != null && "Armazem".equals(this.finalidade)){ 
-            if(this.comida.getQuantidade() <= 20 &&  this.comida.getQuantidade() >= 0){
-                System.out.println("\nA comida do modulo " +  this.identificacao + " esta em um nivel critico de quantidade!");
-            }
-        }
-        if(this.energia != null && "Armazem".equals(this.finalidade)){
-            if(this.energia.getQuantidade() <= 20 && this.energia.getQuantidade() >= 0){
-                System.out.println("\nA energia do modulo " +  this.identificacao + " em um nivel critico de quantidade!");
-            }
-        } 
     }
 
-    public void gastoDeRecursos(){
-        getAgua().setQuantidade(getAgua().getQuantidade() - getCapacidade());
-        getOxigenio().setQuantidade(getOxigenio().getQuantidade() - getCapacidade());
-        getComida().setQuantidade(getComida().getQuantidade() - getCapacidade());
-        getEnergia().setQuantidade(getEnergia().getQuantidade() - getCapacidade());
+    public void cadastrarRecurso(){
+        System.out.println("\nDigite a indentificação do modulo para o recurso: ");
+        String identificacao = sc.nextLine();
+        if(this.identificacao.equals(identificacao)){
+            System.out.println("\nDigite o nome do recurso: ");
+            String nome = sc.nextLine();
+            System.out.println("\nDigite a quantidade do recurso: ");
+            int quantidade = sc.nextInt();
+            Recurso recurso = new Recurso(nome, quantidade);
+            recursos.add(recurso);
+        } else {
+            System.out.println("\nModulo nao encontrado!");
+        }
     }
 
-    public void abastecerModulos(ModuloHabitacionial modulo, ModuloHabitacionial modulo2){
-        modulo2.getAgua().setQuantidade(modulo.getAgua().getQuantidade());
-        modulo2.getOxigenio().setQuantidade(modulo.getOxigenio().getQuantidade());
-        modulo2.getComida().setQuantidade(modulo.getComida().getQuantidade());
-        modulo2.getEnergia().setQuantidade(modulo.getEnergia().getQuantidade());
-        modulo.getAgua().setQuantidade(0);
-        modulo.getOxigenio().setQuantidade(0);
-        modulo.getComida().setQuantidade(0);
-        modulo.getEnergia().setQuantidade(0);
+    public void cadastrarProjetoPesquisa(){
+        System.out.println("\nDigite a indentificação do modulo para o projeto de pesquisa: ");
+        String identificacao = sc.nextLine();
+        if(this.identificacao.equals(identificacao) && finalidade.equals("Laboratorial")){
+            System.out.println("\nDigite o titulo do projeto: ");
+            String titulo = sc.nextLine();
+            System.out.println("\nDigite a equipe responsavel pelo projeto: ");
+            String equipeResponsavel = sc.nextLine();
+            System.out.println("\nDigite a duracao estimada do projeto: ");
+            double duracaoEstimada = sc.nextDouble();
+            System.out.println("\nDigite os requisitos de equipamentos do projeto: ");
+            String requisitosDeEquipamentos = sc.nextLine();
+            System.out.println("\nDigite o status do projeto: ");
+            String status = sc.nextLine();
+            ProjetosDePesquisa projeto = new ProjetosDePesquisa(titulo, equipeResponsavel, duracaoEstimada, requisitosDeEquipamentos, status);
+            projetos.add(projeto);
+        } else {
+            System.out.println("\nModulo Laboratorial nao encontrado!");
+        }
     }
+
 }

@@ -39,7 +39,6 @@ public class Habitante {
     public void setEspecialidade(String especialidade) {
         this.especialidade = especialidade;
     }
-     
     
     
 
